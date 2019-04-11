@@ -1,0 +1,27 @@
+{
+    "name": "KOA2",
+    "version": "1.0.0",
+    "main": "knove.js",
+    "scripts": {
+        "start": "node knove.js"
+    },
+    "keywords": [
+        "koa",
+        "async"
+    ],
+    "author": "Knove",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "js-md5": "^0.7.3",
+        "jszip": "^3.1.5",
+        "koa": "2.4.1",
+        "koa-bodyparser": "3.2.0",
+        "koa-multer": "^1.0.2",
+        "koa-router": "7.0.0",
+        "koa-session": "^5.8.1",
+        "koa-static": "^4.0.2",
+        "monk": "^6.0.5",
+        "nodemailer": "^4.6.4",
+        "nodemailer-smtp-transport": "^2.7.4"
+    }
+}
