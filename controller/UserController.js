@@ -1,5 +1,6 @@
 const { loginService } = require('../service/UserService');
-const sendMsg = require('../common/sendMsg/sendMsg');
+// const sendMsg = require('../common/sendMsg/sendMsg');
+const msgTest = require('../common/sendMsg/msgTest');
 const Response = require("../common/response/Response");
 
 // 用户登录
@@ -27,7 +28,7 @@ const sendCode = async (ctx, next) => {
   } else {
     ctx.session[phoneNumber] = [code, new Date().getTime()];
     ctx.session.maxAge = 10 * 60 * 1000;
-    sendMsg(phoneNumber, code);
+    msgTest(phoneNumber, code);
     ctx.response.body = new Response("200", "验证码发送成功", null);
   }
 }
@@ -35,16 +36,20 @@ const sendCode = async (ctx, next) => {
 // 验证手机验证码
 const verifyCode = async (ctx, next) => {
   const postData = ctx.request.body;
-  const { authCode } = postData;
-  if (ctx.session) {
-
+  const { authCode, phoneNumber } = postData;
+  if (
+    ctx.session[phoneNumber] &&
+    ctx.session[phoneNumber][0] === authCode
+  ) {
+    ctx.session[phoneNumber] = '';
+    ctx.response.body = new Response("200", "SUCCESS", null);
+  } else {
+    ctx.response.body = new Response("500", "验证码错误", null);
   }
-
-  ctx.response.body = new Response("200", "SUCCESS", true);
-  console.log(postData);
 }
 
 module.exports = {
   "POST /user/login": login,
+  "POST /user/sendCode": sendCode,
   "POST /user/verifyCode": verifyCode,
 }

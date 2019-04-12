@@ -12,6 +12,7 @@
   "author": "gyx",
   "license": "Apache-2.0",
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "js-md5": "^0.7.3",
     "jszip": "^3.1.5",
     "koa": "2.4.1",
@@ -20,7 +21,9 @@
     "koa-router": "7.0.0",
     "koa-session": "^5.8.1",
     "koa-static": "^4.0.2",
+    "moment": "^2.24.0",
     "mysql2": "^1.6.5",
+    "node-fetch": "^2.3.0",
     "nodemailer": "^4.6.4",
     "nodemailer-smtp-transport": "^2.7.4",
     "sequelize": "^5.3.2",
