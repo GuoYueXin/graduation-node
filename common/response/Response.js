@@ -8,7 +8,7 @@ class Response {
     /**
      * 状态
      */
-    this.status = status;
+    this.code = status;
     /**
      * 描述信息
      */
