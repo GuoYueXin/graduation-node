@@ -26,6 +26,7 @@
     "node-fetch": "^2.3.0",
     "nodemailer": "^4.6.4",
     "nodemailer-smtp-transport": "^2.7.4",
+    "qiniu": "^7.2.1",
     "sequelize": "^5.3.2",
     "uid": "^0.0.2"
   }
