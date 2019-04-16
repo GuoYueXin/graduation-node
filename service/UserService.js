@@ -47,14 +47,7 @@ const queryPhoneService = async (phoneNumber) => {
 // 修改密码
 const updatePwdService = async (phoneNumber, password) => {
   const result = await updatePwd(phoneNumber, password)
-    .then(result => {
-      console.log(result)
-      if (result && result.length > 0) {
-        return result[0].dataValues;
-      } else {
-        return null;
-      }
-    })
+    .then(result => result)
     .catch(e => {
       console.log(e)
     })

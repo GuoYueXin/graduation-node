@@ -37,7 +37,7 @@ const updatePwd = async (ctx, next) => {
   const postData = ctx.request.body;
   const {phoneNumber, password} = postData;
   const result = await updatePwdService(phoneNumber, password);
-  if (result && result.hasOwnProperty('dataValues')) {
+  if (result) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
     ctx.response.body = new Response("500", "ERROR", null);
@@ -94,6 +94,6 @@ module.exports = {
   "POST /user/login": login,
   "POST /user/sendCode": sendCode,
   "POST /user/verifyCode": verifyCode,
-  "POST /user/register": userReg,
   "POST /user/updatePwd": updatePwd,
+  "POST /user/register": userReg,
 }
