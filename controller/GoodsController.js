@@ -1,14 +1,27 @@
 const Response = require("../common/response/Response");
-const qiniuToken = require("../common/qiniuUpLoad/index");
+const multer = require('multer');
 
-const getToken = async (ctx, next) => {
-  if (qiniuToken) {
-    ctx.response.body = new Response("200", "SUCCESS", qiniuToken);
-  } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+const Storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "../Images");
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
   }
+});
+
+const upload = multer({ storage: Storage }).array("imgUploader", 3);
+
+const uploadPic = async (ctx, next) => {
+  upload(ctx.request, ctx.response, function (err) {
+    // if (err) {
+    //   return res.end("Something went wrong!");
+    // }
+    // return res.end("File uploaded sucessfully!.");
+  });
 }
 
 module.exports = {
-  "GET /goods/getToken": getToken,
+  // "GET /goods/getToken": getToken,
+  "POST /goods/uploadPic": uploadPic,
 }

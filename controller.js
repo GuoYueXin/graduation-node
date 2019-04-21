@@ -5,6 +5,8 @@
  **/
 
 const fs = require("fs");
+const Response = require("./common/response/Response");
+
 
 // add url-route in /controllers:
 
@@ -48,20 +50,26 @@ function addUploadFile(router) {
   var storage = multer.diskStorage({
     //文件保存路径
     destination: function(req, file, cb) {
-      cb(null, "./uploads/");
+      cb(null, "./uploads/imgs");
     },
     filename: function(req, file, cb) {
       var fileFormat = file.originalname.split(".");
-      cb(null, file.originalname);
+      cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);
     }
   });
   var upload = multer({storage: storage});
   // upload.single('file') file is name<input type="file" name="file"/>
-  router.post("/uploadFile", upload.single("fileUpload"), async (ctx, next) => {
+  router.post("/uploadFile", upload.single("file"), async (ctx, next) => {
     // ctx.response.body =
     console.log("接收到上传文件的请求！");
-    // console.log(ctx.req);
-    ctx.redirect("/writeFile?name=" + ctx.req.file.filename + "&type=" + ctx.req.body.fileType); // 前往写文件
+    console.log(ctx.request.body);
+    console.log(ctx.req.file)
+    if(ctx.req.file){
+      ctx.response.status = 201;
+      ctx.response.body = new Response("200", "SUCCESS", { filename: ctx.req.file.filename });
+      console.log(ctx.response.body);
+    }
+    // ctx.redirect("/writeFile?name=" + ctx.req.file.filename + "&type=" + ctx.req.body.fileType); // 前往写文件
   });
   console.log(`register URL mapping: POST /uploadFile`);
 }

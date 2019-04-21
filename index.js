@@ -58,6 +58,17 @@ app.use(async (ctx, next) => {
   if (ctx.request.method != "GET" || (ctx.request.method == "GET" && ctx.request.url.indexOf(".html") > 0) || (ctx.request.method == "GET" && ctx.request.url.length == 1) ) {
     console.log(`| Process ${ctx.request.method} ${ctx.request.url}... | => ${ctx.session.requestUsername} | Date ${new Date().toLocaleString()} | ${ctx.ip}`);
   }
+  if (ctx.request.method === "OPTIONS") {
+    ctx.set({
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json; charset=utf-8",
+      "'Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, DELETE",
+      "Access-Control-Allow-Headers": "x-requested-with",
+      "access-control-allow-credentials": true,
+      "Access-Control-Max-Age": "1000",
+    });
+    ctx.response.status = 204
+  }
   // 是否登录的权限控制
   if((ctx.session.requestUsername && ctx.session.requestCheckUser === true  && ctx.session.requestAlterPass === true ) || (ctx.request.url === "/ctrl/checkLogin" || ctx.request.url === "/ctrl?path=checkLogin" || ctx.request.url === "/ctrl?path=alterPass" || ctx.request.url === "/login.html" || (ctx.request.url.indexOf(".html") < 0 && ctx.request.url.indexOf("/ctrl") < 0) ) && ctx.request.url !=="/"){
       await next();
@@ -74,7 +85,7 @@ app.use(bodyParser());
 app.use(controller());
 
 // static page
-app.use(serve(__dirname + "/page"));
+app.use(serve(__dirname + "/uploads"));
 
 app.proxy = true;
 
