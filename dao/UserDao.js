@@ -6,7 +6,7 @@ const uid = require("uid");
 const userLogin = async (username = '', password = '') => {
   const result = await User.findAll({
     where: {
-      username,
+      phoneNumber: username,
       password,
     }
   }).then(result => {
