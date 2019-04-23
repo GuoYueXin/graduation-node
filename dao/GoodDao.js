@@ -1,5 +1,7 @@
 const Good = require('./modal/goodModal');
 const uid = require("uid");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 // 添加商品
 const addGoods = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic) => {
@@ -12,12 +14,32 @@ const addGoods = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goo
     userId,
     goodsDesc,
     goodsPic,
+    goodsStatus: 1,
   }).then(result => result).catch(err => {
     console.log(err);
   });
   return result;
 }
 
+// 查询商品
+const query = async (pageSize, current, keyWords = '') => {
+  const result = Good.findAll({
+    limit: +pageSize,
+    offset: (current - 1) * pageSize,
+    where: {
+      goodsName: {
+        [Op.like]: `%${keyWords}`,
+      }
+    }
+  }).then(result => result)
+    .catch(err => {
+      console.log('Goods Dao query err:', err);
+    });
+  return result;
+}
+
+
 module.exports = {
   addGoods,
+  query,
 }

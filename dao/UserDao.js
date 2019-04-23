@@ -17,6 +17,7 @@ const userLogin = async (username = '', password = '') => {
   return result;
 }
 
+
 // 用户注册
 const userRegister = async (username, password, phoneNumber, school) => {
   const userId = uid(8) + uid(8);
