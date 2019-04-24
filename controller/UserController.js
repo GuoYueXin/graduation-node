@@ -34,14 +34,14 @@ const userReg = async (ctx, next) => {
 
 // 用户修改密码
 const updatePwd = async (ctx, next) => {
-  const postData = ctx.request.body;
-  const {phoneNumber, password} = postData;
-  const result = await updatePwdService(phoneNumber, password);
-  if (result) {
-    ctx.response.body = new Response("200", "SUCCESS", null);
-  } else {
-    ctx.response.body = new Response("500", "ERROR", null);
-  }
+    const postData = ctx.request.body;
+    const {phoneNumber, password} = postData;
+    const result = await updatePwdService(phoneNumber, password);
+    if (result) {
+        ctx.response.body = new Response("200", "SUCCESS", null);
+    } else {
+        ctx.response.body = new Response("500", "ERROR", null);
+    }
 }
 
 

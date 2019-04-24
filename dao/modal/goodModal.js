@@ -10,6 +10,7 @@ const Good = db.define('good', {
     goodsPic: sequelize.STRING,
     goodsDesc: sequelize.TEXT,
     goodsStatus: sequelize.INTEGER,
+    goodsNum: sequelize.INTEGER,
   },
   {
     timestamps: false,

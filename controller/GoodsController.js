@@ -13,9 +13,10 @@ const addGoods = async (ctx, next) => {
     goodsType,
     userId,
     goodsDesc,
-    goodsPic
+    goodsPic,
+    goodsNum,
   } = postData;
-  const result = await addGoodService(goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic)
+  const result = await addGoodService(goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic, goodsNum)
     .then(result => result)
     .catch(err => {
       console.log('addGoods Controller err', err);

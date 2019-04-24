@@ -8,8 +8,6 @@ const fs = require("fs");
 const Response = require("./common/response/Response");
 
 
-// add url-route in /controllers:
-
 function addMapping(router, mapping) {
   for (var url in mapping) {
     if (url.startsWith("GET ")) {

@@ -3,8 +3,8 @@ const {
   query,
 } = require('../dao/GoodDao');
 
-const addGoodService = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic) => {
-  const result = addGoods(goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic)
+const addGoodService = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic, goodsNum) => {
+  const result = addGoods(goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic, goodsNum)
     .then(result => result)
     .catch(err => {
       console.log(err);

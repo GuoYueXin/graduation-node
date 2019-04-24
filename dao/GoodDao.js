@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 // 添加商品
-const addGoods = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic) => {
+const addGoods = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goodsPic, goodsNum) => {
   const goodsId = uid(8) + uid(8) + uid(8);
   const result = Good.create({
     goodsId,
@@ -15,6 +15,7 @@ const addGoods = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goo
     goodsDesc,
     goodsPic,
     goodsStatus: 1,
+    goodsNum,
   }).then(result => result).catch(err => {
     console.log(err);
   });
