@@ -23,7 +23,7 @@ const addGoods = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goo
 }
 
 // 查询商品
-const query = async (pageSize, current, keyWords = '') => {
+const query = async (pageSize = 10, current = 1, keyWords = '') => {
   const result = Good.findAll({
     limit: +pageSize,
     offset: (current - 1) * pageSize,
@@ -39,8 +39,22 @@ const query = async (pageSize, current, keyWords = '') => {
   return result;
 }
 
+// 修改商品状态
+const updateStatus = async (goodsId, status) => {
+  const result = Good.update({goodsStatus: +status},{
+    where: {
+      goodsId,
+    }
+    })
+    .then(result => result)
+    .catch(err => {
+      console.log('GoodDao error at line 51:', err);
+    });
+  return result;
+}
 
 module.exports = {
   addGoods,
   query,
+  updateStatus,
 }
