@@ -3,6 +3,7 @@ const {
   addGoodService,
   queryGoodService,
   updateGoodStatus,
+  queryGoodTotal,
 } = require('../service/GoodService');
 
 
@@ -31,7 +32,7 @@ const addGoods = async (ctx, next) => {
 
 const queryGoods = async (ctx, next) => {
   const queryData = ctx.request.query;
-  const { pageSize, current, keyWords = '' } = queryData;
+  const { pageSize = 12, current = 1, keyWords = '' } = queryData;
   const result = await queryGoodService(pageSize, current, keyWords)
     .then(result => {
       const goodMap = result.length > 0 ? result.map(item => item.dataValues) : [];
@@ -39,9 +40,20 @@ const queryGoods = async (ctx, next) => {
     })
     .catch(err => {
       console.log(err);
-  })
+  });
+  const total = await queryGoodTotal().then(result => result[0].dataValues.count).catch(err => {
+    console.log(err);
+  });
+  const data = {
+    data: result,
+    total: total,
+    pageSize: +pageSize,
+    current: +current,
+  }
+
   if (result) {
-    ctx.response.body = new Response("200", "SUCCESS", result);
+    console.log(data);
+    ctx.response.body = new Response("200", "SUCCESS", data);
   } else {
     ctx.response.body = new Response("500", "ERROR", null);
   }

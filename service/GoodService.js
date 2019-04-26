@@ -2,6 +2,7 @@ const {
   addGoods,
   query,
   updateStatus,
+  queryTotal,
 } = require('../dao/GoodDao');
 
 // 添加商品
@@ -24,6 +25,16 @@ const queryGoodService = async (pageSize, current, keyWords) => {
   return result;
 }
 
+// 查询商品总数
+const queryGoodTotal = async  () => {
+  const result = queryTotal()
+    .then(result => result)
+    .catch(err => {
+      console.log(err);
+    });
+  return result;
+}
+
 // 修改商品状态
 const updateGoodStatus = async (goodsId, status) => {
   const result = updateStatus(goodsId, status)
@@ -38,4 +49,5 @@ module.exports = {
   addGoodService,
   queryGoodService,
   updateGoodStatus,
+  queryGoodTotal,
 }

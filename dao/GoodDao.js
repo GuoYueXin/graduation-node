@@ -39,6 +39,14 @@ const query = async (pageSize = 10, current = 1, keyWords = '') => {
   return result;
 }
 
+// 查询商品总数
+const queryTotal = async () => {
+ const res = await Good.findAll({
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('*')), 'count']]
+  }).then(res => res).catch(err => console.log(err));
+ return res
+}
+
 // 修改商品状态
 const updateStatus = async (goodsId, status) => {
   const result = Good.update({goodsStatus: +status},{
@@ -57,4 +65,5 @@ module.exports = {
   addGoods,
   query,
   updateStatus,
+  queryTotal,
 }
