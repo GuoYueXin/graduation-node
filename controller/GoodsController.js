@@ -32,8 +32,8 @@ const addGoods = async (ctx, next) => {
 
 const queryGoods = async (ctx, next) => {
   const queryData = ctx.request.query;
-  const { pageSize = 12, current = 1, keyWords = '' } = queryData;
-  const result = await queryGoodService(pageSize, current, keyWords)
+  const { pageSize = 12, current = 1, keyWords = '', goodsType = 0 } = queryData;
+  const result = await queryGoodService(pageSize, current, keyWords, goodsType)
     .then(result => {
       const goodMap = result.length > 0 ? result.map(item => item.dataValues) : [];
       return goodMap;
@@ -41,7 +41,7 @@ const queryGoods = async (ctx, next) => {
     .catch(err => {
       console.log(err);
   });
-  const total = await queryGoodTotal().then(result => result[0].dataValues.count).catch(err => {
+  const total = await queryGoodTotal(goodsType).then(result => result[0].dataValues.count).catch(err => {
     console.log(err);
   });
   const data = {

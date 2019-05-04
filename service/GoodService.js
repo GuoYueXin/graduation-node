@@ -16,8 +16,8 @@ const addGoodService = async (goodsName, goodsPrice, goodsType, userId, goodsDes
 }
 
 // 查询商品
-const queryGoodService = async (pageSize, current, keyWords) => {
-  const result = query(pageSize, current, keyWords)
+const queryGoodService = async (pageSize, current, keyWords, goodsType) => {
+  const result = query(pageSize, current, keyWords, goodsType)
     .then(result => result)
     .catch(err => {
       console.log(err);
@@ -26,8 +26,8 @@ const queryGoodService = async (pageSize, current, keyWords) => {
 }
 
 // 查询商品总数
-const queryGoodTotal = async  () => {
-  const result = queryTotal()
+const queryGoodTotal = async  (goodsType) => {
+  const result = queryTotal(goodsType)
     .then(result => result)
     .catch(err => {
       console.log(err);

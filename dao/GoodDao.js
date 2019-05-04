@@ -23,14 +23,15 @@ const addGoods = async (goodsName, goodsPrice, goodsType, userId, goodsDesc, goo
 }
 
 // 查询商品
-const query = async (pageSize = 10, current = 1, keyWords = '') => {
+const query = async (pageSize = 10, current = 1, keyWords = '', goodsType = 0) => {
   const result = Good.findAll({
     limit: +pageSize,
     offset: (current - 1) * pageSize,
     where: {
       goodsName: {
-        [Op.like]: `%${keyWords}`,
-      }
+        [Op.like]: `%${keyWords}%`,
+      },
+      goodsType: +goodsType === 0 ? { [Op.in]: [1, 2, 3] } : {  [Op.eq]: +goodsType },
     }
   }).then(result => result)
     .catch(err => {
@@ -40,8 +41,11 @@ const query = async (pageSize = 10, current = 1, keyWords = '') => {
 }
 
 // 查询商品总数
-const queryTotal = async () => {
+const queryTotal = async (goodsType = 0) => {
  const res = await Good.findAll({
+   where: {
+     goodsType: +goodsType === 0 ? { [Op.in]: [1, 2, 3] } : {  [Op.eq]: +goodsType },
+   },
     attributes: [[Sequelize.fn('COUNT', Sequelize.col('*')), 'count']]
   }).then(res => res).catch(err => console.log(err));
  return res
