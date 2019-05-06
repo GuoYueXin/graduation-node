@@ -4,9 +4,13 @@ const {
   queryGoodService,
   updateGoodStatus,
   queryGoodTotal,
+  queryDetial,
 } = require('../service/GoodService');
+const {
+  queryUserDetial
+} = require('../service/UserService');
 
-
+// 发布商品
 const addGoods = async (ctx, next) => {
   const postData = ctx.request.body;
   const {
@@ -30,6 +34,7 @@ const addGoods = async (ctx, next) => {
   }
 }
 
+// 查询商品列表
 const queryGoods = async (ctx, next) => {
   const queryData = ctx.request.query;
   const { pageSize = 12, current = 1, keyWords = '', goodsType = 0 } = queryData;
@@ -71,8 +76,47 @@ const updateStatus = async (ctx, next) => {
   }
 }
 
+// 查询商品详情
+const queryGoodsDetial = async (ctx, next) => {
+  const { goodsId } = ctx.request.query;
+  const result = await queryDetial(goodsId)
+    .then(async result => {
+      if (hasOwnProperty.call(result, 'dataValues')) {
+        const data = result.dataValues;
+        const userInfo = await queryUserDetial(data.userId)
+          .then(result => {
+            if (hasOwnProperty.call(result, 'dataValues')) {
+              return result.dataValues;
+            } else {
+              return null;
+            }
+          })
+          .catch(err => {
+            console.log('query user info error:', err);
+          })
+        const res = {
+          goodInfo: result,
+          userInfo,
+        }
+        return res;
+      } else {
+        return null;
+      }
+    })
+    .catch(err => {
+      console.log('GoodsController queryGoodsDetial ERROR:', err);
+    })
+  if (result) {
+    ctx.response.body = new Response("200", "SUCCESS", result);
+  } else {
+    ctx.response.body = new Response("500", "ERROR", null);
+  }
+
+}
+
 module.exports = {
   "POST /goods/addGoods": addGoods,
   "GET /goods/queryGoods": queryGoods,
   "POST /goods/updateStatus": updateStatus,
+  "GET /goods/queryGoodsDetial": queryGoodsDetial,
 }

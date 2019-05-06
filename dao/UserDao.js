@@ -17,6 +17,18 @@ const userLogin = async (username = '', password = '') => {
   return result;
 }
 
+// 根据用户id查询用户信息
+const queryUserInfo = async (userId) => {
+  const result = await User.findOne({
+    attributes: { exclude: ['id', 'password'] },
+  })
+    .then(result => result)
+    .catch(err => {
+      console.log('UserDao queryUserInfo ERROR :', err);
+    });
+  return result;
+}
+
 
 // 用户注册
 const userRegister = async (username, password, phoneNumber, school) => {
@@ -64,4 +76,5 @@ module.exports = {
   userRegister,
   queryPhoneNumber,
   updatePwd,
+  queryUserInfo,
 }

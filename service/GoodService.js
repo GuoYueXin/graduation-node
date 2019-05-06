@@ -3,6 +3,7 @@ const {
   query,
   updateStatus,
   queryTotal,
+  queryGoodsDetial,
 } = require('../dao/GoodDao');
 
 // 添加商品
@@ -45,9 +46,20 @@ const updateGoodStatus = async (goodsId, status) => {
   return result;
 }
 
+// 查询商品详情
+const queryDetial = async (goodsId) => {
+  const result = queryGoodsDetial(goodsId)
+    .then(result => result)
+    .catch(err => {
+      console.log('GoodService queryDetial ERROR:', err);
+    });
+  return result;
+}
+
 module.exports = {
   addGoodService,
   queryGoodService,
   updateGoodStatus,
   queryGoodTotal,
+  queryDetial,
 }

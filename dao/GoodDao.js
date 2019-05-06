@@ -51,6 +51,20 @@ const queryTotal = async (goodsType = 0) => {
  return res
 }
 
+// 根据商品Id查询商品详情
+const queryGoodsDetial = async (goodsId) => {
+  const res = await Good.findOne({
+    where: {
+      goodsId,
+    }
+  })
+    .then(res => res)
+    .catch(err => {
+      console.log('GoodDao queryGoodsDetial ERROR:', err);
+    })
+  return res;
+}
+
 // 修改商品状态
 const updateStatus = async (goodsId, status) => {
   const result = Good.update({goodsStatus: +status},{
@@ -70,4 +84,5 @@ module.exports = {
   query,
   updateStatus,
   queryTotal,
+  queryGoodsDetial,
 }
