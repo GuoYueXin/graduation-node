@@ -1,4 +1,5 @@
 const ShopCart = require('./modal/shopCartModal');
+const Good = require('./modal/goodModal');
 const uid = require('uid');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -44,8 +45,38 @@ const updateGoodsNum = async  (goodsId, userId, num) => {
   return result;
 }
 
+// 根据用户id查询商品列表
+const queryByUserId = async (userId) => {
+  const goodsIds = await ShopCart.findAll({
+    attributes: ['goodsId'],
+    where: {
+      userId,
+    }
+  }).then(res => {
+    const arr = res.map(item => item.dataValues.goodsId)
+    return arr;
+  })
+    .catch(err => {
+      console.log(err)
+    })
+  const result = await Good.findAll({
+    where: {
+      goodsId: {[Op.in]: goodsIds}
+    }
+  })
+    .then(res => {
+      const arr = res.map(item => item.dataValues);
+      return arr;
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
 module.exports = {
   add,
   queryByGoodsIdAndUserId,
   updateGoodsNum,
+  queryByUserId,
 }

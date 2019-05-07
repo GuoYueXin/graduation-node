@@ -2,9 +2,11 @@ const {
   addShopCart,
   queryByGoodsIdAndUserIdService,
   updateGoodsNumService,
+  queryByUserIdService,
 } = require('../service/ShopCartService');
 const Response = require('../common/response/Response');
 
+// 向购物车中添加商品
 const add = async (ctx, next) => {
   const postData = ctx.request.body;
   const { goodsId, userId, num } = postData;
@@ -34,6 +36,19 @@ const add = async (ctx, next) => {
   }
 }
 
+// 根据userId查询购物车中的商品
+const queryByUserId = async (ctx, next) => {
+  const queryData = ctx.request.query;
+  const { userId } = queryData;
+  const result = await queryByUserIdService(userId)
+    .then(res => res)
+    .catch(err => {
+      console.log(err);
+    })
+  ctx.response.body = new Response("200", "SUCCESS", result);
+}
+
 module.exports = {
   "POST /cart/add": add,
+  "GET /cart/query": queryByUserId,
 }

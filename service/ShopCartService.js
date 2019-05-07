@@ -2,6 +2,7 @@ const {
   add,
   queryByGoodsIdAndUserId,
   updateGoodsNum,
+  queryByUserId,
 } = require('../dao/ShopCartDao');
 
 // 向购物车添加商品
@@ -34,8 +35,19 @@ const updateGoodsNumService = async (goodsId, userId, num) => {
   return result
 }
 
+// 根据userId查询购物车中商品
+const queryByUserIdService = async (userId) => {
+  const result = await queryByUserId(userId)
+    .then(res => res)
+    .catch(err => {
+      console.log(err);
+    })
+  return result
+}
+
 module.exports = {
   addShopCart,
   queryByGoodsIdAndUserIdService,
-  updateGoodsNumService
+  updateGoodsNumService,
+  queryByUserIdService,
 }
