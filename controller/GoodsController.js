@@ -5,6 +5,8 @@ const {
   updateGoodStatus,
   queryGoodTotal,
   queryDetial,
+  queryByUserIdService,
+  updateGoodsNumService,
 } = require('../service/GoodService');
 const {
   queryUserDetial
@@ -114,9 +116,46 @@ const queryGoodsDetial = async (ctx, next) => {
 
 }
 
+// 根据userId查询商品
+const queryByUserId = async (ctx, next) => {
+  const queryData = ctx.request.query;
+  const { userId } = queryData;
+  const result = await queryByUserIdService(userId)
+    .then(res => {
+      const arr = res.map(item => item.dataValues);
+      return arr;
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  if (result) {
+    ctx.response.body = new Response("200", "SUCCESS", result);
+  } else {
+    ctx.response.body = new Response("500", "ERROR", null);
+  }
+}
+
+// 商品补货
+const updateGoodsNum = async (ctx, next) => {
+  const postData = ctx.request.body;
+  const { goodsId, num } = postData;
+   const result = await updateGoodsNumService(goodsId, num)
+     .then(res => res)
+     .catch(err => {
+       console.log(err)
+     })
+  if (result) {
+    ctx.response.body = new Response("200", "SUCCESS", null);
+  } else {
+    ctx.response.body = new Response("500", "ERROR", null);
+  }
+}
+
 module.exports = {
   "POST /goods/addGoods": addGoods,
   "GET /goods/queryGoods": queryGoods,
   "POST /goods/updateStatus": updateStatus,
   "GET /goods/queryGoodsDetial": queryGoodsDetial,
+  "GET /goods/queryByUserId": queryByUserId,
+  "POST /goods/updateGoodsNum": updateGoodsNum,
 }

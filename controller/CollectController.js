@@ -2,7 +2,11 @@ const {
   addService,
   queryByGoodsIdAndUserIdService,
   cancelCollectService,
+  queryByUserIdService,
 } = require('../service/CollectService');
+const {
+  queryDetial,
+} = require('../service/GoodService');
 const Response = require('../common/response/Response');
 
 // 添加收藏
@@ -73,8 +77,28 @@ const cancelCollect = async (ctx, next) => {
   }
 }
 
+// 查询用户所收藏的商品
+const queryByUserId = async (ctx, next) => {
+  const queryData = ctx.request.query;
+  const { userId } = queryData;
+  const result = await queryByUserIdService(userId)
+    .then(res => {
+      const arr = res.map(item => item.dataValues);
+      return arr;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  if (result.length > 0) {
+    ctx.response.body = new Response("200", "SUCCESS", result);
+  } else {
+    ctx.response.body = new Response("500", "ERROR", null);
+  }
+}
+
 module.exports = {
   "POST /collect/add": add,
   "POST /collect/queryIsCollect": queryIsCollect,
   "POST /collect/cancel": cancelCollect,
+  "GET /collect/query": queryByUserId,
 }

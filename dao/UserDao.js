@@ -21,6 +21,9 @@ const userLogin = async (username = '', password = '') => {
 const queryUserInfo = async (userId) => {
   const result = await User.findOne({
     attributes: { exclude: ['id', 'password'] },
+    where: {
+      userId,
+    }
   })
     .then(result => result)
     .catch(err => {

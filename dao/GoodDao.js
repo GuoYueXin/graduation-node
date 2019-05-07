@@ -32,6 +32,7 @@ const query = async (pageSize = 10, current = 1, keyWords = '', goodsType = 0) =
         [Op.like]: `%${keyWords}%`,
       },
       goodsType: +goodsType === 0 ? { [Op.in]: [1, 2, 3] } : {  [Op.eq]: +goodsType },
+      goodsStatus: 1,
     }
   }).then(result => result)
     .catch(err => {
@@ -79,10 +80,38 @@ const updateStatus = async (goodsId, status) => {
   return result;
 }
 
+// 根据userId查询商品
+const queryByUserId = async (userId) => {
+  const result = await Good.findAll({
+    where: {
+      userId,
+    }
+  }).then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
+// 商品补货
+const updateGoodsNum = async (goodsId, num) => {
+  const result = await Good.update({ goodsNum: num, goodsStatus: 1}, {
+    where: {
+      goodsId,
+    }
+  }).then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
 module.exports = {
   addGoods,
   query,
   updateStatus,
   queryTotal,
   queryGoodsDetial,
+  queryByUserId,
+  updateGoodsNum,
 }
