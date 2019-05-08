@@ -69,7 +69,6 @@ const cancelCollect = async (ctx, next) => {
     .catch(err => {
       console.log(err);
     });
-  console.log(queryRes)
   if (queryRes === 1) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {

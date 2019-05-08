@@ -3,12 +3,16 @@ const Good = require('./modal/goodModal');
 const uid = require('../common/response/Response');
 
 // 生成订单
-const add = async (goodsId, userId, num ) => {
+const add = async (goodsId, userId, num, sellUserId, goodsName, goodsPrice, userPhone ) => {
   const date = new Date();
   const orderId = date.getFullYear() + '' + Math.random().toString().slice(2, 8) + '' + date.getTime().toString().slice(-3);
   const result = await Order.create({
     goodsId,
+    goodsName,
+    goodsPrice,
     userId,
+    sellUserId,
+    userPhone,
     orderId,
     num,
   }).then(res => res)
@@ -37,6 +41,69 @@ const add = async (goodsId, userId, num ) => {
   return result;
 }
 
+// 查询购买订单
+const queryBuyOrder = async (userId) => {
+  const result = await Order.findAll({
+    where: {
+      userId,
+      buyDelFlag: 0,
+    }
+  }).then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
+// 查询卖出订单
+const querySellOrder = async (userId) => {
+  const result = await Order.findAll({
+    where: {
+      sellUserId: userId,
+      sellDelFlag: 0,
+    }
+  }).then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
+// 修改订单状态
+const updateOrderStatus = async (orderId, buyStatus, sellStatus) => {
+  const newData = {
+    buyStatus,
+    sellStatus,
+  }
+  const result = Order.update(newData, {
+    where: {
+      orderId,
+    }
+  }).then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
+// 删除订单
+const deleteOrder = async (orderId, buyDelFlag, sellDelFlag) => {
+  const newDate = buyDelFlag === 1 ? { buyDelFlag } : { sellDelFlag };
+  const result = Order.update(newDate, {
+    where: {
+      orderId,
+    }
+  }).then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
 module.exports = {
   add,
+  queryBuyOrder,
+  querySellOrder,
+  updateOrderStatus,
+  deleteOrder,
 }
