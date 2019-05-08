@@ -3,6 +3,7 @@ const {
   queryByGoodsIdAndUserIdService,
   updateGoodsNumService,
   queryByUserIdService,
+  deleteByUserIdAndGoodsIdService,
 } = require('../service/ShopCartService');
 const Response = require('../common/response/Response');
 
@@ -48,7 +49,24 @@ const queryByUserId = async (ctx, next) => {
   ctx.response.body = new Response("200", "SUCCESS", result);
 }
 
+// 删除购物车中商品
+const deleteByUserIdAndGoodsId = async (ctx, next) => {
+  const postData = ctx.request.body;
+  const { userId, goodsId } = postData;
+  const result = await deleteByUserIdAndGoodsIdService(userId, goodsId)
+    .then(res => res)
+    .catch(err => {
+      console.log(err);
+    })
+  if (result === 1) {
+    ctx.response.body = new Response("200", "SUCCESS", null);
+  } else {
+    ctx.response.body = new Response("500", "ERROR", null);
+  }
+}
+
 module.exports = {
   "POST /cart/add": add,
   "GET /cart/query": queryByUserId,
+  "POST /cart/delete": deleteByUserIdAndGoodsId,
 }

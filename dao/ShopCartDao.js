@@ -74,9 +74,24 @@ const queryByUserId = async (userId) => {
   return result;
 }
 
+// 删除购物车中商品
+const deleteByUserIdAndGoodsId = async (userId, goodsId) => {
+  const result = await ShopCart.destroy({
+    where: {
+      userId,
+      goodsId,
+    }
+  }).then(res =>res)
+    .catch(err => {
+      console.log(err)
+    })
+  return result;
+}
+
 module.exports = {
   add,
   queryByGoodsIdAndUserId,
   updateGoodsNum,
   queryByUserId,
+  deleteByUserIdAndGoodsId,
 }
