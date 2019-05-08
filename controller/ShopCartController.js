@@ -33,7 +33,7 @@ const add = async (ctx, next) => {
   if (Array.isArray(result) || hasOwnProperty.call(result, 'dataValues')) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "添加失败", null);
   }
 }
 
@@ -61,7 +61,7 @@ const deleteByUserIdAndGoodsId = async (ctx, next) => {
   if (result === 1) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "删除失败", null);
   }
 }
 

@@ -31,10 +31,10 @@ const add = async (ctx, next) => {
     if (hasOwnProperty.call(result, 'dataValues')) {
       ctx.response.body = new Response("200", "SUCCESS", null);
     } else {
-      ctx.response.body = new Response("500", "ERROR", null);
+      ctx.response.body = new Response("500", "收藏失败", null);
     }
   } else {
-    ctx.response.body = new Response("501", "ERROR", "该商品已经在收藏夹中");
+    ctx.response.body = new Response("501", "该商品已经在收藏夹中", null);
   }
 }
 
@@ -72,7 +72,7 @@ const cancelCollect = async (ctx, next) => {
   if (queryRes === 1) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "取消收藏失败", null);
   }
 }
 
@@ -91,7 +91,7 @@ const queryByUserId = async (ctx, next) => {
   if (result.length > 0) {
     ctx.response.body = new Response("200", "SUCCESS", result);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "查询失败", null);
   }
 }
 

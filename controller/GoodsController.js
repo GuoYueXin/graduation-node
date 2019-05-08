@@ -32,7 +32,7 @@ const addGoods = async (ctx, next) => {
   if (result && result.hasOwnProperty('dataValues')) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", "发布失败");
+    ctx.response.body = new Response("500", "发布失败", null);
   }
 }
 
@@ -62,7 +62,7 @@ const queryGoods = async (ctx, next) => {
     console.log(data);
     ctx.response.body = new Response("200", "SUCCESS", data);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "查询失败", null);
   }
 }
 
@@ -74,7 +74,7 @@ const updateStatus = async (ctx, next) => {
   if (result) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "修改商品状态失败", null);
   }
 }
 
@@ -111,7 +111,7 @@ const queryGoodsDetial = async (ctx, next) => {
   if (result) {
     ctx.response.body = new Response("200", "SUCCESS", result);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "查询商品详情失败", null);
   }
 
 }
@@ -131,7 +131,7 @@ const queryByUserId = async (ctx, next) => {
   if (result) {
     ctx.response.body = new Response("200", "SUCCESS", result);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "查询失败", null);
   }
 }
 
@@ -147,7 +147,7 @@ const updateGoodsNum = async (ctx, next) => {
   if (result) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "补货失败", null);
   }
 }
 

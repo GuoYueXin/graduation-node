@@ -28,7 +28,7 @@ const userReg = async (ctx, next) => {
   if (result && result.hasOwnProperty('dataValues')) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", "注册失败");
+    ctx.response.body = new Response("500", "注册失败", null);
   }
 }
 
@@ -49,7 +49,7 @@ const updatePwd = async (ctx, next) => {
 const sendCode = async (ctx, next) => {
   const postData = ctx.request.body;
   const {phoneNumber, type = ''} = postData;
-  const code = (Math.random() * 1000000).toFixed();
+  const code = Math.random().toString().slice(2,8);
   if (!type) {
     const result = await queryPhoneService(phoneNumber)
       .then(result => result)

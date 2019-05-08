@@ -19,7 +19,7 @@ const add = async (ctx, next) => {
   if (result.hasOwnProperty('dataValues')) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "下单失败", null);
   }
 }
 
@@ -59,7 +59,7 @@ const updateStatus = async (ctx, next) => {
   if (result) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "订单不存在", null);
   }
 }
 
@@ -75,7 +75,7 @@ const deleteOrder = async (ctx, next) => {
   if (result) {
     ctx.response.body = new Response("200", "SUCCESS", null);
   } else {
-    ctx.response.body = new Response("500", "ERROR", null);
+    ctx.response.body = new Response("500", "订单删除失败", null);
   }
 }
 
