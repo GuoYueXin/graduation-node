@@ -91,7 +91,7 @@ const queryByUserId = async (ctx, next) => {
   if (result.length > 0) {
     ctx.response.body = new Response("200", "SUCCESS", result);
   } else {
-    ctx.response.body = new Response("500", "查询失败", null);
+    ctx.response.body = new Response("200", "SUCCESS", []);
   }
 }
 

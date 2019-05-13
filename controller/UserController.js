@@ -3,6 +3,8 @@ const {
   registerService,
   queryPhoneService,
   updatePwdService,
+  updateInfoService,
+  queryUserDetial,
 } = require('../service/UserService');
 // const sendMsg = require('../common/sendMsg/sendMsg');
 const msgTest = require('../common/sendMsg/msgTest');
@@ -90,10 +92,42 @@ const verifyCode = async (ctx, next) => {
   }
 }
 
+// 修改用户信息
+const updateInfo = async (ctx, next) => {
+  const postData = ctx.request.body;
+  const {
+    userId,
+    username,
+    userIcon,
+    address,
+    QQ,
+  } = postData;
+  const result = await updateInfoService(userId, username, userIcon, address, QQ)
+    .then(res => res)
+    .catch(err => {
+      console.log(err)
+    })
+  if(result){
+    const userInfo = await queryUserDetial(userId)
+      .then(res => res)
+      .catch(err => {
+        console.log(err)
+      })
+    if (userInfo.hasOwnProperty("dataValues")) {
+      ctx.response.body = new Response("200", "SUCCESS", userInfo.dataValues);
+    } else {
+      ctx.response.body = new Response("500", "获取用户信息出错啦", null);
+    }
+  } else {
+    ctx.response.body = new Response("500", "修改用户信息失败", null);
+  }
+}
+
 module.exports = {
   "POST /user/login": login,
   "POST /user/sendCode": sendCode,
   "POST /user/verifyCode": verifyCode,
   "POST /user/updatePwd": updatePwd,
   "POST /user/register": userReg,
+  "POST /user/updateInfo": updateInfo,
 }

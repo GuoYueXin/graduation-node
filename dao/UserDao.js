@@ -5,6 +5,7 @@ const uid = require("uid");
 // 用户登录
 const userLogin = async (username = '', password = '') => {
   const result = await User.findAll({
+    attributes: { exclude: ['id', 'password'] },
     where: {
       phoneNumber: username,
       password,
@@ -74,10 +75,29 @@ const updatePwd = async (phoneNumber, password) => {
   return result;
 }
 
+// 修改用户信息
+const updateInfo = async (userId, username, userIcon, address, QQ) => {
+  const result = await User.update({
+    username,
+    userIcon,
+    address,
+    QQ,
+  },{
+    where: {
+      userId,
+    }
+  }).then(res => res)
+    .catch(err => {
+      console.log(err)
+  })
+  return result;
+}
+
 module.exports = {
   userLogin,
   userRegister,
   queryPhoneNumber,
   updatePwd,
   queryUserInfo,
+  updateInfo,
 }

@@ -4,6 +4,7 @@ const {
   queryPhoneNumber,
   updatePwd,
   queryUserInfo,
+  updateInfo,
 } = require('../dao/UserDao.js');
 
 // 用户登录
@@ -67,6 +68,17 @@ const queryUserDetial = async (userId) => {
   return result;
 }
 
+// 修改用户信息
+const updateInfoService = async (userId, username, userIcon, address, QQ) => {
+  const result = await updateInfo(userId, username, userIcon, address, QQ)
+    .then(result => result)
+    .catch(err => {
+      console.log(err => {
+        console.log('UserService updateInfoService ERROR:', err);
+      })
+    })
+  return result;
+}
 
 module.exports = {
   loginService,
@@ -74,4 +86,5 @@ module.exports = {
   queryPhoneService,
   updatePwdService,
   queryUserDetial,
+  updateInfoService,
 }
