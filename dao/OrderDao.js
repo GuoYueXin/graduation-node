@@ -1,6 +1,6 @@
 const Order = require('./modal/orderModal');
 const Good = require('./modal/goodModal');
-const uid = require('../common/response/Response');
+const Message = require('./modal/messageModal');
 
 // 生成订单
 const add = async (goodsId, userId, num, sellUserId, goodsName, goodsPrice, userPhone ) => {
@@ -19,6 +19,21 @@ const add = async (goodsId, userId, num, sellUserId, goodsName, goodsPrice, user
     .catch(err => {
       console.log(err);
     });
+  // 生成订单消息
+  const messageId = date.getFullYear() + '' + Math.random().toString().slice(2, 8) + '' + Math.random().toString().slice(2, 8) + '' + Math.random().toString().slice(2, 8) + '' + date.getTime().toString().slice(-4);
+  const params = {
+    orderId,
+    userId: sellUserId,
+    messageId,
+    type: 'order',
+  };
+  console.log(params);
+  await Message.create(params).then(res => {
+    console.log('res', res)
+  }).catch(err => {
+    console.log('err', err)
+  });
+  // 生成订单后对商品库存进行减操作
   if (result.hasOwnProperty('dataValues')) {
     const goodsNum = await Good.findOne({
       attributes: ['goodsNum'],

@@ -46,6 +46,7 @@ const queryTotal = async (goodsType = 0) => {
  const res = await Good.findAll({
    where: {
      goodsType: +goodsType === 0 ? { [Op.in]: [1, 2, 3] } : {  [Op.eq]: +goodsType },
+     goodsStatus: 1
    },
     attributes: [[Sequelize.fn('COUNT', Sequelize.col('*')), 'count']]
   }).then(res => res).catch(err => console.log(err));
