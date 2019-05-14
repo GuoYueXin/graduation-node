@@ -18,7 +18,7 @@ const login = async (ctx, next) => {
   if (result) {
     ctx.response.body = new Response("200", "SUCCESS", result);
   } else {
-    ctx.response.body = new Response("500", "ERROR", "用户名或密码错误");
+    ctx.response.body = new Response("500", "用户名或密码错误", null);
   }
 }
 
@@ -42,7 +42,7 @@ const updatePwd = async (ctx, next) => {
     if (result) {
         ctx.response.body = new Response("200", "SUCCESS", null);
     } else {
-        ctx.response.body = new Response("500", "ERROR", null);
+        ctx.response.body = new Response("500", "密码修改失败，请稍后重试", null);
     }
 }
 
